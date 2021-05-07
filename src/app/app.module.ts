@@ -7,6 +7,9 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
+import {AmplifyAngularModule, AmplifyModules, AmplifyService} from 'aws-amplify-angular';
+import { Auth } from 'aws-amplify';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -17,9 +20,19 @@ import { MatInputModule } from '@angular/material/input';
     AppRoutingModule,
     NoopAnimationsModule,
     MatButtonModule,
-    MatInputModule
+    MatInputModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: AmplifyService,
+      useFactory: (): AmplifyAngularModule => {
+        return AmplifyModules({
+          Auth
+        });
+      }
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

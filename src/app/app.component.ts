@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import {ApiService} from './services/api.service';
+import {HttpClient} from '@angular/common/http';
+import {Snap} from './interfaces/snap';
 
 @Component({
   selector: 'app-root',
@@ -13,15 +15,15 @@ export class AppComponent {
   public isSetup: boolean;
 
   public constructor(
-      private _apiService: ApiService,
+      private apiService: ApiService
   ) {
     this.username = localStorage.getItem('username');
 
     this.updateSetupState();
 
-    if (this.isSetup) {
-      this.retrieveSnaps();
-    }
+    // if (this.isSetup) {
+    //   this.retrieveSnaps();
+    // }
   }
 
   public setUsername = (username: string): void => {
@@ -42,8 +44,15 @@ export class AppComponent {
     this.updateSetupState();
   }
 
-  private retrieveSnaps = async (): void => {
-    const res: any = await this._apiService.GetUser();
+  public retrieveSnaps = async (): Promise<void> => {
+    console.log(1);
+    // const res: any = await this.apiService.GetSnaps();
+    // const res: any = await this.apiService.GetSnaps2();
+    const res: any = await this.apiService.GetSnaps2().subscribe((res2: Snap[]) => {
+      console.log(res2);
+    });
+    console.log(2);
+    console.log(res);
   }
 
 }

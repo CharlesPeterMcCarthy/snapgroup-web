@@ -15,6 +15,8 @@
 
   <div *ngIf="isSetup" class="content-box">
     <h3>Logged in as <strong>{{username}}</strong>!</h3>
+    <button color="primary" (click)="retrieveSnaps()" mat-flat-button>Get Snaps</button>
+
     <button color="accent" class="logout-btn" (click)="logout()" mat-flat-button>Logout</button>
     <li>
     </li>
