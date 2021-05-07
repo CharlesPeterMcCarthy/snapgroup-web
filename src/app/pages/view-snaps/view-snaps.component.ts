@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {Snap} from '../../interfaces/snap';
+import {ApiService} from '../../services/api.service';
 
 @Component({
   selector: 'app-view-snaps',
@@ -7,9 +9,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ViewSnapsComponent implements OnInit {
 
-  constructor() { }
+  public snaps: Snap[];
 
-  ngOnInit(): void {
+  public constructor(
+      private apiService: ApiService
+  ) {
+    this.retrieveSnaps();
+  }
+
+  public ngOnInit(): void {
+  }
+
+  public retrieveSnaps = (): void => {
+    this.apiService.GetSnaps().subscribe((snaps: Snap[]) => {
+      console.log(snaps);
+      this.snaps = snaps;
+    });
   }
 
 }

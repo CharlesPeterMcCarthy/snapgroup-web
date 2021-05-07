@@ -14,53 +14,19 @@ import HTMLInputEvent from '../../app.component';
 })
 export class SendSnapComponent implements OnInit {
 
-  public username: string;
   public isSetup: boolean;
   public snapImage: SafeStyle;
-  public snaps: Snap[];
 
   public constructor(
       private apiService: ApiService,
       private s3Service: S3Service,
       private sanitization: DomSanitizer
   ) {
-    this.username = localStorage.getItem('username');
-
-    this.updateSetupState();
-
-    if (this.isSetup) {
-      this.retrieveSnaps();
-    }
   }
 
   public ngOnInit(): void {
     this.imageUploadListener();
     this.imageUploadProgressListener();
-  }
-
-  public setUsername = (username: string): void => {
-    console.log(username);
-    this.username = username;
-    localStorage.setItem('username', this.username);
-
-    this.updateSetupState();
-  }
-
-  private updateSetupState = (): void => {
-    this.isSetup = !!this.username;
-  }
-
-  public logout = (): void => {
-    localStorage.removeItem('username');
-    this.username = undefined;
-    this.updateSetupState();
-  }
-
-  public retrieveSnaps = (): void => {
-    this.apiService.GetSnaps().subscribe((snaps: Snap[]) => {
-      console.log(snaps);
-      this.snaps = snaps;
-    });
   }
 
   public imageSelected = async (e: Event): Promise<void> => {

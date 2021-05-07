@@ -1,1 +1,7 @@
-<p>view-snaps works!</p>
+<div class="content-box">
+    <button color="primary" (click)="retrieveSnaps()" mat-flat-button>Get Snaps</button>
+
+    <ul *ngFor="let snap of snaps">
+        <li>{{ snap.imageUrl }}</li>
+    </ul>
+</div>

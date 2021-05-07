@@ -1,23 +1,4 @@
 <div *ngIf="!isSetup" class="content-box">
-    <p>Enter your username to login to SnapGroup.</p>
-    <p>Once you've logged in, you will be able to send and receive snaps from your friends!</p>
-    <hr>
-    <div class="login-form">
-        <label>Username</label>
-        <input type="text" #usernameField />
-        <button color="primary" (click)="setUsername(usernameField.value)" mat-flat-button>Login</button>
-    </div>
-</div>
-
-<div *ngIf="isSetup" class="content-box">
-    <h3>Logged in as <strong>{{username}}</strong>!</h3>
-    <button color="primary" (click)="retrieveSnaps()" mat-flat-button>Get Snaps</button>
-
-    <button color="accent" class="logout-btn" (click)="logout()" mat-flat-button>Logout</button>
-    <ul *ngFor="let snap of snaps">
-        <li>{{ snap.imageUrl }}</li>
-    </ul>
-
     <div class="avatar-container">
         <label title="Click to upload a new image">
             <div class="img-wrapper" [style.background-image]="snapImage">
