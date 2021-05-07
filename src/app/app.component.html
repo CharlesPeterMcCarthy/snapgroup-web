@@ -24,8 +24,7 @@
 
     <div class="avatar-container">
       <label title="Click to upload a new image">
-        <div class="img-wrapper">
-          test
+        <div class="img-wrapper" [style.background-image]="snapImage">
         </div>
         <input type="file" accept="image/*" (change)="imageSelected($event)" hidden #imageField>
       </label>
