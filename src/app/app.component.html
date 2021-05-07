@@ -18,8 +18,21 @@
     <button color="primary" (click)="retrieveSnaps()" mat-flat-button>Get Snaps</button>
 
     <button color="accent" class="logout-btn" (click)="logout()" mat-flat-button>Logout</button>
-    <li>
-    </li>
+    <ul *ngFor="let snap of snaps">
+      <li>{{ snap.imageUrl }}</li>
+    </ul>
+
+    <div class="avatar-container">
+      <label title="Click to upload a new image">
+        <div class="img-wrapper">
+          test
+        </div>
+        <input type="file" accept="image/*" (change)="imageSelected($event)" hidden #imageField>
+      </label>
+<!--      <div class="balance" *ngIf="isMyProfile && myProfile().accountBalance" (click)="moneyOptions()">-->
+<!--        {{ myProfile().accountBalance | money }}-->
+<!--      </div>-->
+    </div>
   </div>
 
 </div>

@@ -1,7 +1,11 @@
 import { Component } from '@angular/core';
 import {ApiService} from './services/api.service';
-import {HttpClient} from '@angular/common/http';
 import {Snap} from './interfaces/snap';
+import {S3Service} from './services/s3-service.service';
+
+export default interface HTMLInputEvent extends Event {
+  target: HTMLInputElement & EventTarget;
+}
 
 @Component({
   selector: 'app-root',
@@ -13,17 +17,19 @@ export class AppComponent {
   public title = 'SnapGroup';
   public username: string;
   public isSetup: boolean;
+  public snaps: Snap[];
 
   public constructor(
-      private apiService: ApiService
+      private apiService: ApiService,
+      private s3Service: S3Service
   ) {
     this.username = localStorage.getItem('username');
 
     this.updateSetupState();
 
-    // if (this.isSetup) {
-    //   this.retrieveSnaps();
-    // }
+    if (this.isSetup) {
+      this.retrieveSnaps();
+    }
   }
 
   public setUsername = (username: string): void => {
@@ -44,15 +50,19 @@ export class AppComponent {
     this.updateSetupState();
   }
 
-  public retrieveSnaps = async (): Promise<void> => {
-    console.log(1);
-    // const res: any = await this.apiService.GetSnaps();
-    // const res: any = await this.apiService.GetSnaps2();
-    const res: any = await this.apiService.GetSnaps2().subscribe((res2: Snap[]) => {
-      console.log(res2);
+  public retrieveSnaps = (): void => {
+    this.apiService.GetSnaps().subscribe((snaps: Snap[]) => {
+      console.log(snaps);
+      this.snaps = snaps;
     });
-    console.log(2);
-    console.log(res);
+  }
+
+  public imageSelected = async (e: Event): Promise<void> => {
+    const event = e as HTMLInputEvent;
+    console.log(event);
+    const imageFile: File = event.target.files && event.target.files.length && event.target.files[0];
+    if (!imageFile) return;
+    this.s3Service.upload(imageFile);
   }
 
 }

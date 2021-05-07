@@ -20,15 +20,14 @@ export class ApiService {
       private http: HttpClient
   ) { }
 
-  public GetSnaps = (): Promise<any> => API.get(this.name, '/snaps', '').catch(this.handleError);
-
-  public GetSnaps2 = (): Observable<Snap[]> => this.http.get(`${this.endpoint}/snaps`)
+  public GetSnaps = (): Observable<Snap[]> => this.http.get(`${this.endpoint}/snaps`)
       .pipe(map(data => _.map(data['snaps'], (s: Snap) => new Snap(s))));
 
-  private handleError = (error: any): void => {
-    if (!error.response || !error.response.data || !error.response.data.error) {
-      throw { message: 'Unknown Error' };
-    }
-    throw error.response.data.error.description || error.response.data.error.message;
-  }
+  // private handleError = (error: any): void => {
+  //   if (!error.response || !error.response.data || !error.response.data.error) {
+  //     throw { message: 'Unknown Error' };
+  //   }
+  //   throw error.response.data.error.description || error.response.data.error.message;
+  // }
+
 }
