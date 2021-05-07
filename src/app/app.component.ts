@@ -17,7 +17,7 @@ export class AppComponent {
     this.updateSetupState();
   }
 
-  private setUsername = (username: string): void => {
+  public setUsername = (username: string): void => {
     console.log(username);
     this.username = username;
     localStorage.setItem('username', this.username);
@@ -29,7 +29,7 @@ export class AppComponent {
     this.isSetup = !!this.username;
   }
 
-  private logout = (): void => {
+  public logout = (): void => {
     localStorage.removeItem('username');
     this.username = undefined;
     this.updateSetupState();

@@ -1,7 +1,8 @@
 <div *ngIf="!isSetup">
   <p>Setting up</p>
-  <input type="text" #usernameField />
-  <button (click)="setUsername(usernameField.value)">Submit</button>
+    <label>Username</label>
+    <input type="text" #usernameField />
+  <button color="primary" (click)="setUsername(usernameField.value)" mat-flat-button>Submit</button>
 </div>
 
 <div *ngIf="isSetup">
