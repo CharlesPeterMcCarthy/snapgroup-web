@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {ApiService} from './services/api.service';
 
 @Component({
   selector: 'app-root',
@@ -11,10 +12,16 @@ export class AppComponent {
   public username: string;
   public isSetup: boolean;
 
-  public constructor() {
+  public constructor(
+      private _apiService: ApiService,
+  ) {
     this.username = localStorage.getItem('username');
 
     this.updateSetupState();
+
+    if (this.isSetup) {
+      this.retrieveSnaps();
+    }
   }
 
   public setUsername = (username: string): void => {
@@ -33,6 +40,10 @@ export class AppComponent {
     localStorage.removeItem('username');
     this.username = undefined;
     this.updateSetupState();
+  }
+
+  private retrieveSnaps = async (): void => {
+    const res: any = await this._apiService.GetUser();
   }
 
 }
