@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { v4 as uuid } from 'uuid';
 
 @Component({
   selector: 'app-root',
@@ -9,24 +8,31 @@ import { v4 as uuid } from 'uuid';
 export class AppComponent {
 
   public title = 'SnapGroup';
-  public isSetup: boolean;
-  public deviceId: string;
   public username: string;
+  public isSetup: boolean;
 
   public constructor() {
-    this.deviceId = localStorage.getItem('deviceId');
     this.username = localStorage.getItem('username');
-    this.isSetup = !!(this.deviceId && !this.username);
-    console.log(2, this.deviceId);
 
-    if (!this.isSetup) {
-      this.setDeviceId();
-    }
+    this.updateSetupState();
   }
 
-  private setDeviceId = (): void => {
-    this.deviceId = this.deviceId || uuid();
-    localStorage.setItem('deviceId', this.deviceId);
+  private setUsername = (username: string): void => {
+    console.log(username);
+    this.username = username;
+    localStorage.setItem('username', this.username);
+
+    this.updateSetupState();
+  }
+
+  private updateSetupState = (): void => {
+    this.isSetup = !!this.username;
+  }
+
+  private logout = (): void => {
+    localStorage.removeItem('username');
+    this.username = undefined;
+    this.updateSetupState();
   }
 
 }

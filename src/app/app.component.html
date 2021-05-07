@@ -1,3 +1,12 @@
-<div>
+<div *ngIf="!isSetup">
   <p>Setting up</p>
+  <input type="text" #usernameField />
+  <button (click)="setUsername(usernameField.value)">Submit</button>
+</div>
+
+<div *ngIf="isSetup">
+  <p>Logged in as {{username}}!</p>
+  <button (click)="logout()">Logout</button>
+  <li>
+  </li>
 </div>
