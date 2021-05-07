@@ -10,10 +10,16 @@ import { MatInputModule } from '@angular/material/input';
 import {AmplifyAngularModule, AmplifyModules, AmplifyService} from 'aws-amplify-angular';
 import { Auth } from 'aws-amplify';
 import {HttpClientModule} from '@angular/common/http';
+import { ViewSnapsComponent } from './pages/view-snaps/view-snaps.component';
+import { SendSnapComponent } from './pages/send-snap/send-snap.component';
+import { HomeComponent } from './pages/home/home.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ViewSnapsComponent,
+    SendSnapComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
