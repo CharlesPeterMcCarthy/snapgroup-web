@@ -30,6 +30,12 @@ export class ViewSnapsComponent implements OnInit {
   }
 
   public viewSnap = (snap: Snap): void => {
+    snap['show'] = true;
+
+    setTimeout(() => {
+      snap['show'] = false;
+    }, 2000);
+
     this.apiService.ViewSnap(snap, this.username).subscribe((snaps: Snap) => {
       console.log(snaps);
     });

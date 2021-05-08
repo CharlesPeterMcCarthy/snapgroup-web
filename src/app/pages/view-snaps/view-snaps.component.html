@@ -9,6 +9,9 @@
             <div>
                 Snap from <strong>{{ snap.username }}</strong>
             </div>
+            <div>
+                <img *ngIf="snap['show']" src="{{snap.imageUrl}}">
+            </div>
             <button class="view-snap-btn" (click)="viewSnap(snap)" color="primary" mat-flat-button>
                 View
             </button>
