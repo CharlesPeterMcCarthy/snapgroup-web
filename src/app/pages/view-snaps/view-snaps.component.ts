@@ -15,15 +15,15 @@ export class ViewSnapsComponent implements OnInit {
   public constructor(
       private apiService: ApiService
   ) {
-    this.retrieveSnaps();
   }
 
   public ngOnInit(): void {
     this.username = localStorage.getItem('username');
+    this.retrieveSnaps();
   }
 
   public retrieveSnaps = (): void => {
-    this.apiService.GetSnaps().subscribe((snaps: Snap[]) => {
+    this.apiService.GetSnaps(this.username).subscribe((snaps: Snap[]) => {
       console.log(snaps);
       this.snaps = snaps;
     });

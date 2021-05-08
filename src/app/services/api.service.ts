@@ -19,7 +19,7 @@ export class ApiService {
       private http: HttpClient
   ) { }
 
-  public GetSnaps = (): Observable<Snap[]> => this.http.get(`${this.endpoint}/snaps`)
+  public GetSnaps = (username: string): Observable<Snap[]> => this.http.get(`${this.endpoint}/snaps/${username}`)
       .pipe(map(data => _.map(data['snaps'], (s: Snap) => new Snap(s))));
 
   public SendSnap = (snap: Partial<Snap>): Observable<Snap> => this.http.post(`${this.endpoint}/snaps`, snap)
