@@ -1,7 +1,17 @@
 <div class="content-box">
-    <button color="primary" (click)="retrieveSnaps()" mat-flat-button>Get Snaps</button>
+<!--    <button color="primary" (click)="retrieveSnaps()" mat-flat-button>Get Snaps</button>-->
 
     <ul *ngFor="let snap of snaps">
-        <li>{{ snap.imageUrl }}</li>
+        <li class="snap-item" [ngClass]="snap.seenBy.indexOf(username) > -1 ? 'viewed' : ''">
+            <div>
+                <small>{{ snap.time }}</small>
+            </div>
+            <div>
+                Snap from <strong>{{ snap.username }}</strong>
+            </div>
+            <button class="view-snap-btn" (click)="viewSnap(snap)" color="primary" mat-flat-button>
+                View
+            </button>
+        </li>
     </ul>
 </div>

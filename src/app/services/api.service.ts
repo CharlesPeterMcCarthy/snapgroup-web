@@ -23,6 +23,10 @@ export class ApiService {
       .pipe(map(data => _.map(data['snaps'], (s: Snap) => new Snap(s))));
 
   public SendSnap = (snap: Partial<Snap>): Observable<Snap> => this.http.post(`${this.endpoint}/snaps`, snap)
+      .pipe(map(data => new Snap(data['snap'])));
+
+  public ViewSnap = (snap: Snap, username: string): Observable<Snap> =>
+      this.http.put(`${this.endpoint}/snaps/view`, { username, snapId: snap.snapId, creatorUsername: snap.username })
       .pipe(map(data => new Snap(data)));
 
 }
