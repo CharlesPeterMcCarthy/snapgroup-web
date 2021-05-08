@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {DomSanitizer, SafeStyle} from '@angular/platform-browser';
 import {Snap} from '../../interfaces/snap';
 import {ApiService} from '../../services/api.service';
@@ -6,19 +6,19 @@ import {S3Service} from '../../services/s3-service.service';
 import {Subscription} from 'rxjs';
 import {Progress} from 'aws-sdk/lib/request';
 import HTMLInputEvent from '../../app.component';
-import {log} from 'util';
 
 @Component({
   selector: 'app-send-snap',
   templateUrl: './send-snap.component.html',
   styleUrls: ['./send-snap.component.less']
 })
-export class SendSnapComponent implements OnInit {
+export class SendSnapComponent implements OnInit, OnDestroy {
 
   @Input() public username: string;
   public isSetup: boolean;
   public snapImage: SafeStyle;
   public snapImageUrl: string;
+  public snapSentSuccessfully = false;
 
   public constructor(
       private apiService: ApiService,
@@ -33,9 +33,15 @@ export class SendSnapComponent implements OnInit {
 
     this.username = localStorage.getItem('username');
     this.snapImage = this.sanitization.bypassSecurityTrustStyle(`url(${'./assets/images/upload-image.png' })`);
+    this.snapSentSuccessfully = false;
+  }
+
+  public ngOnDestroy(): void {
+    this.s3Service.reset();
   }
 
   public imageSelected = async (e: Event): Promise<void> => {
+    this.snapSentSuccessfully = false;
     const event = e as HTMLInputEvent;
     console.log(event);
     const imageFile: File = event.target.files && event.target.files.length && event.target.files[0];
@@ -54,7 +60,9 @@ export class SendSnapComponent implements OnInit {
 
     this.apiService.SendSnap(snap).subscribe((completedSnap: Snap) => {
       console.log(completedSnap);
-      // this.snaps = snaps;
+      this.snapImage = this.sanitization.bypassSecurityTrustStyle(`url(${ './assets/images/upload-image.png' })`);
+      this.snapImageUrl = '';
+      this.snapSentSuccessfully = true;
     });
   }
 
@@ -63,10 +71,7 @@ export class SendSnapComponent implements OnInit {
       console.log(imageURL);
       if (!imageURL) return;
       this.snapImage = this.sanitization.bypassSecurityTrustStyle(`url(${ imageURL || './assets/images/upload-image.png' })`);
-
       this.snapImageUrl = imageURL;
-
-      // this._spinner.hide('spinner');
       this.s3Service.reset();
     });
   }

@@ -1,10 +1,12 @@
 <div *ngIf="!isSetup" class="content-box" xmlns="http://www.w3.org/1999/html">
     <div class="avatar-container">
+        <p>Click the image to upload a new Snap.</p>
         <label title="Click to upload a new image">
             <div class="img-wrapper" [style.background-image]="snapImage">
             </div>
             <input type="file" accept="image/*" (change)="imageSelected($event)" hidden #imageField>
         </label>
-        <button (click)="sendSnap()"  color="primary" mat-flat-button>Send Snap</button>
+        <button (click)="sendSnap()" [disabled]="!snapImageUrl" color="primary" mat-flat-button>Send Snap</button>
+        <p *ngIf="snapSentSuccessfully">Snap sent successfully!</p>
     </div>
 </div>

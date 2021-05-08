@@ -14,6 +14,7 @@
 
   <div *ngIf="loggedIn" class="content-box">
     <h3>Logged in as <strong>{{username}}</strong>!</h3>
+    <button color="primary" class="home-btn" routerLink="/" mat-flat-button>Home</button>
     <button color="accent" class="logout-btn" (click)="logout()" mat-flat-button>Logout</button>
 
     <router-outlet></router-outlet>
