@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
-// import https from 'https';
 import { Consumer, SQSMessage } from 'sqs-consumer';
 import * as AWS from 'aws-sdk';
+import {Snap} from '../interfaces/snap';
+import {BehaviorSubject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SnapSqsQueueService {
 
+  public snapListener: BehaviorSubject<Snap> = new BehaviorSubject<Snap>(null);
   private awsRegion = 'eu-west-1';
   private awsAccountId = '068475715603';
   private awsTopicName = 'snapgroup-snaps';
@@ -46,11 +48,7 @@ export class SnapSqsQueueService {
         await this.HandleMessage(message);
       },
       sqs: new AWS.SQS({
-        httpOptions: {
-          // agent: new https.Agent({
-          //   keepAlive: true
-          // })
-        }
+        httpOptions: { }
       })
     });
 
@@ -120,19 +118,18 @@ export class SnapSqsQueueService {
   private HandleMessage = (message: SQSMessage): void => {
     let messageBody: any;
 
-    console.log(message);
-
     try {
       if (message.Body) messageBody = JSON.parse(message.Body);
     } catch (err) {
       console.error(`Failed to parse SQS message: ${err}`);
     }
 
-    // if (messageBody) {
-    //   const currencySuggestion: CurrencySuggestion = JSON.parse(messageBody.Message);
-    //
-    //   if (currencySuggestion.symbol) CurrencySuggestionsManager.AddSuggestion(currencySuggestion);
-    // }
+    if (messageBody) {
+      const snap: Snap = JSON.parse(messageBody.Message);
+      console.log(snap);
+
+      this.snapListener.next(snap);
+    }
   }
 
 }

@@ -9,6 +9,9 @@
             <div>
                 Snap from <strong>{{ snap.username }}</strong>
             </div>
+            <div *ngIf="snap.seenBy.length">
+                <small>Viewed by <strong>{{ snap.seenBy.join(', ') }}</strong></small>
+            </div>
             <div>
                 <img *ngIf="snap['show']" src="{{snap.imageUrl}}">
             </div>
