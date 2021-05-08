@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { API } from 'aws-amplify';
 import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
@@ -23,11 +22,7 @@ export class ApiService {
   public GetSnaps = (): Observable<Snap[]> => this.http.get(`${this.endpoint}/snaps`)
       .pipe(map(data => _.map(data['snaps'], (s: Snap) => new Snap(s))));
 
-  // private handleError = (error: any): void => {
-  //   if (!error.response || !error.response.data || !error.response.data.error) {
-  //     throw { message: 'Unknown Error' };
-  //   }
-  //   throw error.response.data.error.description || error.response.data.error.message;
-  // }
+  public SendSnap = (snap: Partial<Snap>): Observable<Snap> => this.http.post(`${this.endpoint}/snaps`, snap)
+      .pipe(map(data => new Snap(data)));
 
 }

@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import {Router} from '@angular/router';
+import {UserService} from './services/user.service';
 
 export default interface HTMLInputEvent extends Event {
   target: HTMLInputElement & EventTarget;
@@ -16,6 +18,7 @@ export class AppComponent {
   public username: string;
 
   public constructor(
+      private router: Router
   ) {
     this.username = localStorage.getItem('username');
 
@@ -30,10 +33,11 @@ export class AppComponent {
     this.updateSetupState();
   }
 
-  public logout = (): void => {
+  public logout = async (): Promise<void> => {
     localStorage.removeItem('username');
     this.username = undefined;
     this.updateSetupState();
+    await this.router.navigateByUrl('/');
   }
 
   private updateSetupState = (): void => {
