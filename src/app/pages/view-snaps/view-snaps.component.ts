@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Snap} from '../../interfaces/snap';
 import {ApiService} from '../../services/api.service';
+import {SnapSqsQueueService} from '../../services/snap-sqs-queue.service';
 
 @Component({
   selector: 'app-view-snaps',
@@ -13,7 +14,8 @@ export class ViewSnapsComponent implements OnInit {
   public username: string;
 
   public constructor(
-      private apiService: ApiService
+      private apiService: ApiService,
+      private snapSqsQueueService: SnapSqsQueueService
   ) {
   }
 
