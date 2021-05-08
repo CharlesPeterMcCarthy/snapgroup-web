@@ -2,7 +2,7 @@
 <!--    <button color="primary" (click)="retrieveSnaps()" mat-flat-button>Get Snaps</button>-->
 
     <ul *ngFor="let snap of snaps">
-        <li class="snap-item" [ngClass]="snap.seenBy.indexOf(username) > -1 ? 'viewed' : ''">
+        <li class="snap-item" *ngIf="username !== snap.username" [ngClass]="snap.seenBy.indexOf(username) > -1 ? 'viewed' : ''">
             <div>
                 <small>{{ snap.time }}</small>
             </div>
@@ -21,6 +21,15 @@
             <button class="view-snap-btn" *ngIf="snap.seenBy.indexOf(username) === -1" (click)="viewSnap(snap)" color="primary" mat-flat-button>
                 View
             </button>
+        </li>
+
+        <li class="snap-item by-you" *ngIf="username === snap.username">
+            <div>
+                <small>{{ snap.time }}</small>
+            </div>
+            <div>
+                Snap by <strong>You</strong>
+            </div>
         </li>
     </ul>
 </div>
