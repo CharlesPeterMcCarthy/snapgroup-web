@@ -15,7 +15,10 @@
             <div>
                 <img *ngIf="snap['show']" src="{{snap.imageUrl}}">
             </div>
-            <button class="view-snap-btn" (click)="viewSnap(snap)" color="primary" mat-flat-button>
+            <div class="time-left" *ngIf="snap['show']">
+                <p>Time left: <strong>{{ timeLeft / 1000 }}</strong></p>
+            </div>
+            <button class="view-snap-btn" *ngIf="snap.seenBy.indexOf(username) === -1" (click)="viewSnap(snap)" color="primary" mat-flat-button>
                 View
             </button>
         </li>

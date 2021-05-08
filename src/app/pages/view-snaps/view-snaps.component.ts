@@ -12,6 +12,7 @@ export class ViewSnapsComponent implements OnInit {
 
   public snaps: Snap[] = [];
   public username: string;
+  public timeLeft = 0;
 
   public constructor(
       private apiService: ApiService,
@@ -37,11 +38,16 @@ export class ViewSnapsComponent implements OnInit {
 
     setTimeout(() => {
       snap['show'] = false;
-    }, 2000);
+      this.apiService.ViewSnap(snap, this.username).subscribe((snaps: Snap) => {
+        console.log(snaps);
+      });
+    }, 10000);
 
-    this.apiService.ViewSnap(snap, this.username).subscribe((snaps: Snap) => {
-      console.log(snaps);
-    });
+    this.timeLeft = 10000;
+    const timer = setInterval(() => {
+      this.timeLeft = this.timeLeft - 1000;
+      if (this.timeLeft <= 0) clearInterval(timer);
+    }, 1000);
   }
 
   private snapReceivedListener = (): void => {
